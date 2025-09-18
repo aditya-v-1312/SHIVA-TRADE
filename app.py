@@ -7,10 +7,12 @@ import os
 # point template_folder to current directory and add static folder
 app = Flask(__name__, template_folder='.', static_folder='static')
 
-app.secret_key = os.environ.get('SECRET_KEY', 'dev_key_change_me')
+# The secret key is now read from an environment variable
+app.secret_key = os.environ.get('SECRET_KEY')
 
 # ===== Database connection =====
-DB_URL = "postgresql://neondb_owner:npg_v5UnzHmfSRj1@ep-falling-hat-aep2j8gp-pooler.c-2.us-east-2.aws.neon.tech/shiva?sslmode=require"
+# The database URL is now read from an environment variable
+DB_URL = os.environ.get('DATABASE_URL')
 
 def get_db_connection():
     conn = psycopg2.connect(DB_URL)

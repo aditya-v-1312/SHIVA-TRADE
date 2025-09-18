@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+
+# Instance Folder
+instance/
+.webassets-cache
+
+# Scrapy
+.scrapy
+
+# Others
+.DS_Store
