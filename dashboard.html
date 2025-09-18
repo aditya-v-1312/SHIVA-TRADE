@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ShivaTrade - Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <style>
+        body { background:#f9f9f9; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+        .navbar { background:#2c3140; }
+        .navbar-brand, .nav-link { color:#fff !important; }
+        .content { padding:20px; }
+        .card { margin-bottom: 20px; }
+        .card-title { color: #2c3140; }
+        .card-link { text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" href="{{ url_for('dashboard') }}">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" style="height:40px;margin-right:10px;">
+            ShivaTrade
+        </a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link active" href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                {% if session.role == 'admin' %}
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('admin') }}">Admin Panel</a></li>
+                {% endif %}
+            </ul>
+        </div>
+        <a href="{{ url_for('logout') }}" class="btn btn-light">Logout</a>
+    </div>
+</nav>
+
+<div class="content">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <h3>Welcome, {{ session.username }}!</h3>
+    <p>Select a module to get started.</p>
+
+    <div class="row mt-4">
+        {% if session.role == 'admin' or 'clients' in session.modules %}
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Clients</h5>
+                    <p class="card-text">Manage client requirements.</p>
+                    <a href="{{ url_for('clients_view') }}" class="card-link">Go to Clients</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        {% if session.role == 'admin' or 'quotations' in session.modules %}
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Quotations</h5>
+                    <p class="card-text">Manage quotations for clients.</p>
+                    <a href="{{ url_for('quotations_view') }}" class="card-link">Go to Quotations</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if session.role == 'admin' or 'pis' in session.modules %}
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Proforma Invoices</h5>
+                    <p class="card-text">Manage proforma invoices (PIs).</p>
+                    <a href="{{ url_for('pis_view') }}" class="card-link">Go to PIs</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if session.role == 'admin' or 'pos' in session.modules %}
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Purchase Orders</h5>
+                    <p class="card-text">Manage purchase orders (POs).</p>
+                    <a href="{{ url_for('pos_view') }}" class="card-link">Go to POs</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        {% if session.role == 'admin' or 'material_receipts' in session.modules %}
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Material Receipts</h5>
+                    <p class="card-text">Log and check received materials.</p>
+                    <a href="{{ url_for('material_receipts_view') }}" class="card-link">Go to Receipts</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if session.role == 'admin' or 'documents' in session.modules %}
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Document Tracking</h5>
+                    <p class="card-text">Track all related documents.</p>
+                    <a href="{{ url_for('documents_view') }}" class="card-link">Go to Documents</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+</body>
+</html>
